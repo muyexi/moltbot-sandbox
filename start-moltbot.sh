@@ -28,6 +28,12 @@ echo "Backup directory: $BACKUP_DIR"
 # Create config directory
 mkdir -p "$CONFIG_DIR"
 
+if [ -f "$CONFIG_FILE" ] && grep -q '"dm":' "$CONFIG_FILE" 2>/dev/null; then
+    echo "Detected corrupted config with invalid 'dm' key, removing..."
+    rm -f "$CONFIG_FILE"
+    rm -f "$CONFIG_DIR/.last-sync"
+fi
+
 # ============================================================
 # RESTORE FROM R2 BACKUP
 # ============================================================
